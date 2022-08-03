@@ -1,0 +1,28 @@
+import 'dart:convert';
+
+
+
+class SoundModel {
+  SoundModel({
+    required this.sourceId,
+    required this.file,
+    required this.height
+  });
+
+  int sourceId;
+  String file;
+  int height;
+
+
+  factory SoundModel.fromJson(Map<String, dynamic> json) => SoundModel(
+        file: json["file"],
+        height: json["height"],
+        sourceId: json["sourceId"]
+      );
+
+  Map<String, dynamic> toJson() => {
+        "file": file,
+        "height": height,
+        "sourceId": sourceId
+};
+}

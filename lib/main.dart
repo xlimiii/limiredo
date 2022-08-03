@@ -1,6 +1,12 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-void main() {
+import 'package:flutter/material.dart';
+import 'package:limiredo/models/sound_model';
+import 'package:limiredo/datasources/limiredo_api.dart';
+
+Future<void> main() async {
+  HttpOverrides.global = MyHttpOverrides();
+
   runApp(const MyApp());
 }
 
@@ -27,12 +33,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late SoundModel? _soundModel;
   bool _isSound = false;
 
   void _playPauseMusic() {
+    _getData();
     setState(() {
       _isSound = !_isSound;
     });
+  }
+
+  void _getData() async {
+    _soundModel = await LimiredoApi().getSound(1);
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
 
   @override
@@ -50,7 +63,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             _isSound
                 ? Text(
-                    'YES',
+                    _soundModel == null
+                        ? 'YES'
+                        : _soundModel!.height.toString(),
                     style: Theme.of(context).textTheme.headline4,
                   )
                 : Text('NO', style: Theme.of(context).textTheme.headline4),
@@ -63,5 +78,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(_isSound ? Icons.pause : Icons.play_arrow),
       ),
     );
+  }
+}
+
+//TODO - for developing only
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
