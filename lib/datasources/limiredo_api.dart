@@ -19,4 +19,28 @@ class LimiredoApi {
       log(e.toString());
     }
   }
+
+  Future<http.Response> getSounds(int number) async {
+    try {
+      var url = Uri.parse(ApiConstants.baseUrl +
+          ApiConstants.soundEndpoint +
+          "/random?count=$number");
+      var response = await http.get(url);
+      return response;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<http.Response> getInterval() async {
+    try {
+      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.intervalEndpoint);
+      var response = await http.get(url);
+      return response;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
 }
