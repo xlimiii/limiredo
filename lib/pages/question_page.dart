@@ -45,6 +45,7 @@ class _QuestionPageState extends State<QuestionPage> {
   }
 
   bool checkAnswer(int buttonValue) {
+    player.stop();
     if (buttonValue.toString() == nameOfFile) {
       return true;
     } else {

@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:limiredo/pages/question_page.dart';
 import 'package:limiredo/pages/welcome_page.dart';
 
 Future<void> main() async {
